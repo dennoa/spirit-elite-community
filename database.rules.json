@@ -1,0 +1,10 @@
+{
+  "rules": {
+    ".read": "data.hasChild('users/' + auth.uid)",
+		"users": {
+      "$uid": {
+        ".write": "($uid === auth.uid) || (data.parent().child($uid).child('isAdmin').val() == true)"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+
+# Dependencies
+node_modules
+
+# Build
+dist
+
+# Editors
+.vscode
+
+# OS metadata
+.DS_Store
+Thumbs.db
