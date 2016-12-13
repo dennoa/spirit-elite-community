@@ -1,0 +1,108 @@
+{
+  "carparks": {
+    "cp0": {
+      "location": "Maybe google address format / reference for simple mapping",
+      "spaces": {
+        "sp0": true,
+        "sp1": true,
+        "sp2": true
+      },
+      "admins": {
+        "u0": true
+      },
+      "timezone": "Sydney/Australia"
+    }
+  },
+  "spaces": {
+    "sp0": {
+      "carpark": "cp0",
+      "spaceGroups": {
+        "sg0": true
+      }
+    }
+  },
+  "users": {
+    "u0": {
+      "firstName": "Foo",
+      "lastName": "Bar",
+      "userGroups": {
+        "ug0": true,
+        "ug1": true
+      }
+    }
+  },
+  "spaceGroups": {
+    "sg0": {
+      "name": "All spaces Level 1",
+      "carpark": "cp0",
+      "spaces": {
+        "sp1": true,
+        "sp2": true
+      },
+      "admins": {
+        "u1": true //Override the admins for this group (default admins are the carpark admins)
+      }      
+    }
+  },
+  "userGroups": {
+    "ug0": {
+      "description": "Public",
+      "users": {
+        "u0": true,
+        "u1": true
+      }
+    },
+    "ug1": {
+      "description": "IAG staff at 388 George St",
+      "users": {
+        "u0": true
+      }
+    }
+  },
+  "weekDayTypes": {
+    "adg0": {
+      "description": "Working days",
+      "includes": [1,2,3,4,5]
+    },
+    "adg1": {
+      "description": "Weekends",
+      "includes": [0,6]
+    },
+    "adg2": {
+      "description": "Any day of the week",
+      "includes": [0,1,2,3,4,5,6]
+    },
+    "adg3": {
+      "description": "Wednesday only",
+      "includes": [3]
+    }
+  },
+  "availabilityProfiles": {
+    "ap0": {
+      "carpark": "cp0",
+      "fromDate": "2016-12-01T00:00:00.000Z",
+      "toDate": "2017-12-01T00:00:00.000Z",
+      "fromTime": "08:00", //Times are expressed using the timezone of the carpark
+      "toTime": "18:00",
+      "weekDayType": "adg0",
+      "spaceGroups": {
+        "sg0": true,
+        "sg1": true
+      },
+      "userGroups": {
+        "ug1": true
+      },
+      "prices": {
+        "hourly": 2.50,
+        "daily": 10.00,
+        "weekly": 50.00,
+        "monthly": 200.00
+      }
+    }
+  },
+  "bookings": {
+    "b0": {
+      
+    }
+  }
+}
