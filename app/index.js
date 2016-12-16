@@ -2,6 +2,7 @@ import ReactDom from 'react-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage';
 import routes from './config/routes';
 
 firebase.initializeApp({
