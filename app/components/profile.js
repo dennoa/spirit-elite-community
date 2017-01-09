@@ -17,10 +17,10 @@ class Profile extends Component {
         this.loadProfilePicture = this.loadProfilePicture.bind(this);
         this.onDropPicture = this.onDropPicture.bind(this);
         this.onPictureUrl = this.onPictureUrl.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSuccess = this.handleSuccess.bind(this);
-        this.handleError = this.handleError.bind(this);
-        this.handleNameChange = this.handleNameChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onSuccess = this.onSuccess.bind(this);
+        this.onError = this.onError.bind(this);
+        this.onNameChange = this.onNameChange.bind(this);
         this.cancel = this.cancel.bind(this);
     }
 
@@ -43,15 +43,7 @@ class Profile extends Component {
         }
     }
 
-    loadProfilePicture() {
-        if (this.state.user.picture) {
-            this.setState({ picLoading: true });
-            const ref = firebase.storage().ref();
-            ref.child(this.state.user.picture).getDownloadURL().then(this.onPictureUrl);
-        }
-    }
-
-    handleSubmit(e) {
+    onSubmit(e) {
         e.preventDefault();
         this.setState({ loading: true, saveFailure: null });
         const data = e.target.elements;
@@ -68,21 +60,29 @@ class Profile extends Component {
                 return (user) ? resolve(user) : reject();
             });
         })));
-        Promise.all(updates).then(this.handleSuccess).catch(this.handleError);
+        Promise.all(updates).then(this.onSuccess).catch(this.onError);
     }
 
-    handleSuccess(results) {
+    onSuccess(results) {
         this.setState({ loading: false, saveFailure: null });
         this.props.route.state.onUser(results[0]);
         browserHistory.push('/');
     }
 
-    handleError(failure) {
+    onError(failure) {
         this.setState({ loading: false, saveFailure: failure });
     }
 
-    handleNameChange(e) {
+    onNameChange(e) {
         this.setState({ user: { name: e.target.value } });
+    }
+
+    loadProfilePicture() {
+        if (this.state.user.picture) {
+            this.setState({ picLoading: true });
+            const ref = firebase.storage().ref();
+            ref.child(this.state.user.picture).getDownloadURL().then(this.onPictureUrl);
+        }
     }
 
     cancel() {
@@ -92,17 +92,17 @@ class Profile extends Component {
     render() {
         return (
             <div className="container">
-                <form name="profile-form" onSubmit={this.handleSubmit}>
+                <form name="profile-form" onSubmit={this.onSubmit}>
                     <h1>Profile</h1>
                     <div className="form-group">
                         <label htmlFor="profile-name">Name</label>
-                        <input className="form-control" type="text" id="profile-name" name="name" placeholder="Name" value={this.state.user.name} onChange={this.handleNameChange} />
+                        <input className="form-control" type="text" id="profile-name" name="name" placeholder="Name" value={this.state.user.name} onChange={this.onNameChange} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="profile-picture">Picture</label>
                         <div>
                             <Dropzone className="btn btn-default" accept="image/*" onDrop={this.onDropPicture}>
-                                {this.state.picUrl && <img src={this.state.picUrl} alt="you" />}
+                                {this.state.picUrl && !this.state.picLoading && <img src={this.state.picUrl} alt="you" />}
                                 {!this.state.picUrl && !this.state.picLoading && <span>Upload</span>}
                                 {this.state.picLoading && <span className="glyphicon glyphicon-refresh spinning" aria-hidden="true" />}
                             </Dropzone>

@@ -1,9 +1,17 @@
 {
   "rules": {
+		"admins": {
+      ".read": "true",
+      ".write": "data.hasChild(auth.uid)"
+    },
+    "user-invitations": {
+      ".read": "true",
+      ".write": "root.hasChild('admins/' + auth.uid)"
+    },
 		"users": {
       ".read": "data.hasChild(auth.uid)",
       "$uid": {
-        ".write": "($uid === auth.uid) || root.hasChild('/admins/' + auth.uid)"
+        ".write": "($uid === auth.uid) || root.hasChild('admins/' + auth.uid)"
       }
     }
   }

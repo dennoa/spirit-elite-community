@@ -1,8 +1,12 @@
 
 const state = {
-  user: null
+  user: null,
+  isAdmin: false
 };
 
-state.onUser = user => { state.user = user; };
+const set = (key, value) => { state[key] = value; };
+
+state.onUser = user => set('user', user);
+state.onIsAdmin = isAdmin => set('isAdmin', isAdmin);
 
 export default state;

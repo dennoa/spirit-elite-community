@@ -5,7 +5,7 @@ import Header from './header';
 
 const Main = props => (
     <div>
-        <Header user={props.route.state.user} />
+        <Header state={props.route.state} />
         {props.children}
     </div>
 );

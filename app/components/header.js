@@ -6,6 +6,7 @@ class Header extends Component {
     constructor(props) {
         super(props);
         this.goHome = this.goHome.bind(this);
+        this.invite = this.invite.bind(this);
         this.profile = this.profile.bind(this);
         this.logout = this.logout.bind(this);
     }
@@ -15,6 +16,11 @@ class Header extends Component {
         return browserHistory.push('/');
     }
 
+    invite(e) {
+        e.preventDefault();
+        return browserHistory.push('/invite');
+    }
+
     profile(e) {
         e.preventDefault();
         return browserHistory.push('/profile');
@@ -22,7 +28,7 @@ class Header extends Component {
 
     logout(e) {
         e.preventDefault();
-        return firebase.auth().signOut().then(() => browserHistory.push('/'));
+        return firebase.auth().signOut().then(() => browserHistory.push('/login'));
     }
 
     render() {
@@ -37,10 +43,11 @@ class Header extends Component {
                                 <span className="icon-bar" />
                                 <span className="icon-bar" />
                             </button>
-                            <a className="navbar-brand" href="/" onClick={this.goHome}>{this.props.user && this.props.user.name}</a>
+                            <a className="navbar-brand" href="/" onClick={this.goHome}>{this.props.state.user && this.props.state.user.name}</a>
                         </div>
                         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul className="nav navbar-nav navbar-right">
+                                {this.props.state.isAdmin && <li><a href="/" onClick={this.invite}>Invite</a></li>}
                                 <li><a href="/" onClick={this.profile}>Profile</a></li>
                                 <li><a href="/" onClick={this.logout}>Logout</a></li>
                             </ul>
@@ -53,7 +60,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    user: PropTypes.object.isRequired
+    state: PropTypes.object.isRequired
 };
 
 export default Header;

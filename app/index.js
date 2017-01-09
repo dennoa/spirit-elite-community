@@ -13,7 +13,4 @@ firebase.initializeApp({
 	messagingSenderId: '729695732287'
 });
 
-ReactDom.render(
-	routes,
-	document.getElementById('app')
-);
+ReactDom.render(routes, document.getElementById('app'));
