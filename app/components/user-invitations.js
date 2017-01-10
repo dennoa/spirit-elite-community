@@ -30,15 +30,21 @@ class UserInvitations extends Component {
 
     render() {
         const rows = this.props.invitations.map(invite => <UserInvitation key={invite.email} invite={invite} onRemove={this.onRemove(invite)} />);
+        if (rows.length === 0) {
+            return <div />;
+        }
         return (
-            <table className="table">
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th />
-                </tr>
-                {rows}
-            </table>
+            <div>
+                <h1>Pending invitations</h1>
+                <table className="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th />
+                    </tr>
+                    {rows}
+                </table>
+            </div>
         );
     }
 }

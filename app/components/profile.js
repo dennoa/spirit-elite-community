@@ -20,7 +20,7 @@ class Profile extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
         this.onError = this.onError.bind(this);
-        this.onNameChange = this.onNameChange.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.cancel = this.cancel.bind(this);
     }
 
@@ -73,8 +73,12 @@ class Profile extends Component {
         this.setState({ loading: false, saveFailure: failure });
     }
 
-    onNameChange(e) {
-        this.setState({ user: { name: e.target.value } });
+    onChange(key) {
+        return e => {
+            const user = this.state.user;
+            user[key] = e.target.value;
+            this.setState({ user });
+        };
     }
 
     loadProfilePicture() {
@@ -96,7 +100,7 @@ class Profile extends Component {
                     <h1>Profile</h1>
                     <div className="form-group">
                         <label htmlFor="profile-name">Name</label>
-                        <input className="form-control" type="text" id="profile-name" name="name" placeholder="Name" value={this.state.user.name} onChange={this.onNameChange} />
+                        <input className="form-control" type="text" id="profile-name" name="name" placeholder="Name" value={this.state.user.name} onChange={this.onChange('name')} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="profile-picture">Picture</label>

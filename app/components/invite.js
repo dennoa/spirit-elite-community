@@ -7,6 +7,7 @@ class Invite extends Component {
     constructor(props) {
         super(props);
         this.state = { invitations: [], loading: false, saveFailure: null };
+        this.isUser = this.isUser.bind(this);
         this.onInviteUser = this.onInviteUser.bind(this);
         this.onRemoveInvitation = this.onRemoveInvitation.bind(this);
         this.save = this.save.bind(this);
@@ -18,7 +19,15 @@ class Invite extends Component {
     componentDidMount() {
         const obj = this;
         firebase.database().ref('user-invitations').once('value', snapshot => {
-            obj.setState({ invitations: snapshot.val() || [] });
+            const invitations = snapshot.val() || [];
+            firebase.database().ref('users').once('value', usersSnapshot => {
+                const users = usersSnapshot.val() || [];
+                const updated = invitations.filter(invite => !obj.isUser(invite.email, users));
+                obj.setState({ invitations: updated });
+                if (updated.length !== invitations.length) {
+                    obj.save(updated);
+                }
+            });
         });
     }
 
@@ -42,6 +51,13 @@ class Invite extends Component {
 
     onError(failure) {
         this.setState({ loading: false, saveFailure: failure });
+    }
+
+    isUser(email, users) {
+        for (const key of Object.keys(users)) {
+            if (users[key].email === email) return true;
+        }
+        return false;
     }
 
     save(invitations) {
@@ -75,7 +91,6 @@ class Invite extends Component {
                         </button>
                     </div>
                 </form>
-                <h1>Current invitations</h1>
                 <UserInvitations invitations={this.state.invitations} onRemove={this.onRemoveInvitation} />
             </div>
         );

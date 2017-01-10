@@ -4,6 +4,12 @@
       ".read": "true",
       ".write": "data.hasChild(auth.uid)"
     },
+		"teams": {
+      ".read": "root.hasChild('users/' + auth.uid)",
+      "$uid": {
+        ".write": "($uid === auth.uid) || root.hasChild('admins/' + auth.uid)"
+      }
+    },
     "user-invitations": {
       ".read": "true",
       ".write": "root.hasChild('admins/' + auth.uid)"
